@@ -103,19 +103,15 @@
             if (!refresh) {
                 app.showPreloader('Loading top stories : <span class="preloader-progress">0</span> %');
             }
-            hnapi.getTopics(function (resp) {
+            hnapi.getTopics({page: 1,limit:100,tab:'good'}, function (resp) {
                 resp = JSON.parse(resp);
                 var data = resp.data;
-                var limit = 40;
+                var limit = 100;
                 data.splice(limit, data.length - limit);
                 data.forEach(function (value, index) {
                     hnapi.getTopicDtails(value, function (resp) {
                         resp = JSON.parse(resp);
                         var data = resp.data;
-                        console.log(data);
-                        if (data) {
-                            data.domain = data.url ? data.url.split('/')[2] : '';
-                        }
                         results[index] = data;
                         storiesCount += 1;
                         $$('.preloader-progress').text(Math.floor(storiesCount / limit * 100));
@@ -192,22 +188,14 @@
             $$(page.container).find('.story-comments .messages').html('<div>No comments</div>');
         }
     }
-    /*
-    //user information
-    function getUserInfo(page) {
-        hnapi.user(page.context.by, function (data) {
-            var user = JSON.parse(data);
-            $$(".panel.panel-right").html(T7.templates.userTemplate(user));
-        });
-    }
-    */
+
     //页面回调
     app.onPageInit('item', function (page) {
         if (page.view === mainView) {
             getComments(page);
         }
-        /*getUserInfo(page);*/
     });
+
     app.onPageAfterAnimation('item', function (page) {
         if (page.view === leftView) {
             getComments(page);
@@ -219,34 +207,6 @@
     $$(document).on('click', '.message a', function (e) {
         e.preventDefault();
         window.open($$(this).attr('href'));
-    });
-
-    // Replies
-    function getReplies(replies, element) {
-        var comments = [],
-            parent = $$(element).parent(),
-            commentsCount = 0;
-        parent.html('<div class="preloader"></div>');
-        replies.forEach(function (reply, index) {
-            hnapi.item(reply, function (data) {
-                var comment = JSON.parse(data);
-                if (comment.text && comment.text.length && !comment.deleted) {
-                    comments[index] = comment;
-                }
-                commentsCount += 1;
-
-                if (commentsCount === replies.length) {
-                    comments = comments.filter(function (n) {
-                        return n !== undefined;
-                    });
-                    parent.html(T7.templates.repliesTemplate(comments));
-                }
-            });
-        });
-    }
-    $$(document).on('click', '.message-kids > a', function (e) {
-        var replies = this.dataset.context.split(',');
-        getReplies(replies, this);
     });
 
     // Search HN
