@@ -1,8 +1,10 @@
 .navbar {
-	background: #ff6600;
+	height: 56px;
+	background: #2196f3;
 	border-bottom: none;
 	color: #fff;
 }
+
 .navbar .center {
     max-width: 60%;
     display: block;
@@ -36,8 +38,8 @@ a {
 	white-space: nowrap;
 }
 .stories-list .badge {
-	border: 1px solid #ff6600;
-	color: #ff6600;
+	border: 1px solid #2196f3;
+	color: #2196f3;
 	background: none;
 	min-width: 30px;
 	text-align: center;
@@ -55,7 +57,7 @@ a {
 	bottom: -3px;
 	border-left: 0px solid transparent;
 	border-right: 4px solid transparent;
-	border-top: 3px solid #ff6600;
+	border-top: 3px solid #2196f3;
 }
 .stories-list .item-link.active-state {
 	background: #e7e7e7;
@@ -386,4 +388,12 @@ body.with-panel-right-reveal .panel-overlay {
 
 .wrapper-md {
 	padding:10px;
+}
+
+.navbar-through .page > .searchbar {
+	top: 56px;
+}
+
+.navbar-through .page > .searchbar ~ .page-content {
+	padding-top: 99px;
 }
