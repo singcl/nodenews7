@@ -9,6 +9,27 @@
     max-width: 60%;
     display: block;
 }
+
+.panel-left .navbar {
+	height: 170px;
+}
+
+.panel-left .navbar-through .page-content {
+	padding-top: 170px;
+}
+
+.panel-left .list-block {
+	margin: 0;
+
+}
+
+.panel-left .navbar .panel-avatar {
+	width: 5pc;
+    height: 5pc;
+    margin-top: 10px;
+    overflow: hidden;
+    border-radius: 50%;
+}
 .statusbar-overlay {
 	background: #ff6600;
 }
@@ -292,8 +313,8 @@ html.with-statusbar-overlay body .panel {
 }
 @media (min-width: 768px) {
 	.panel.panel-left.panel-cover {
+		display: none;
 		box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.2);
-		width: 320px;
 	}
 	.stories-list a.active-story {
 		background: rgba(0, 0, 0, 0.1);
@@ -315,7 +336,7 @@ html.with-statusbar-overlay body .panel {
 		transform: translate3d(100%, 0, 0);
 	}
 	.panel.panel-left.panel-cover {
-		left: -320px;
+		left: -260px;
 	}
 	.choose-story {
 		display: block;
@@ -332,10 +353,7 @@ html.with-statusbar-overlay body .panel {
 	}
 }
 @media (min-width: 1024px) and (max-width: 1279px) {
-	.panel.panel-left.panel-cover {
-		display: block;
-		left: 0%;
-	}
+	
 	body.with-panel-left-cover .panel-left {
 		-webkit-transform: translate3d(0%, 0, 0);
 		-ms-transform: translate3d(0%, 0, 0);
@@ -343,32 +361,23 @@ html.with-statusbar-overlay body .panel {
 	}
 	.view-main {
 		float: right;
-		width: -webkit-calc(100% - 320px);
-		width: -moz-calc(100% - 320px);
-		width: -ms-calc(100% - 320px);
-		width: calc(100% - 320px);
+		width: -webkit-calc(100% );
+		width: -moz-calc(100% );
+		width: -ms-calc(100% );
+		width: calc(100%);
 	}
 	.view-main .navbar .left .open-panel {
 		display: none;
 	}
 }
 @media (min-width: 1280px) {
-    .panel.panel-left.panel-cover {
-		display: block;
-		left: 0%;
-	}
+    
     .view-main {
         box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.2);
-        left: 320px;
-        width: calc(100% - 320px);
-    }
-    .panel.panel-right.panel-reveal {
-        width: 320px;
-        z-index: 6000;
-        display: block;
+        width: calc(100%);
     }
     .view-main .navbar .open-panel {
-		display: none;
+		display: auto;
 	}
 }
 .notifications .item-text {
@@ -392,6 +401,10 @@ body.with-panel-right-reveal .panel-overlay {
 
 .navbar-through .page > .searchbar {
 	top: 56px;
+}
+
+.navbar-through .page-content {
+	padding-top: 56px;
 }
 
 .navbar-through .page > .searchbar ~ .page-content {

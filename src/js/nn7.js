@@ -39,71 +39,30 @@
     });
 
     // Add Left View
+    /*
     leftView = app.addView('.view-left', {
         dynamicNavbar: true
-    });
-
-    function checkSplitView() {
-        var activeStoryLink;
-        if ($$(window).width() < 767) {
-            delete leftView.params.linksView;
-            if (splitView) {
-                // Need to check main view history and load same page into left view
-                activeStoryLink = $$('.stories-list a.item-link.active-story');
-                if (mainView.history.length > 1 && activeStoryLink.length > 0) {
-                    leftView.router.load({
-                        animatePages: false,
-                        url: activeStoryLink.attr('href'),
-                        contextName: activeStoryLink.attr('data-contextName')
-                    });
-                }
-            }
-            splitView = false;
-        } else {
-            if (!splitView) {
-                // Need to check left view history and go back
-                if (leftView.history.length === 2) {
-                    leftView.router.back({
-                        animatePages: false
-                    });
-                    activeStoryLink = $$('.stories-list a.item-link.active-story');
-                    // Need to load same page in main view on the right
-                    mainView.router.load({
-                        url: activeStoryLink.attr('href'),
-                        contextName: activeStoryLink.attr('data-contextName')
-                    });
-                }
-            }
-            splitView = true;
-            leftView.params.linksView = '.view-main';
-        }
-    }
-    $$(window).resize(checkSplitView);
-    checkSplitView();
-
-    // Add active class for left view links and close panel
-    $$(document).on('click', '.view-left .stories-list a.item-link', function (e) {
-        $$('.stories-list a.item-link.active-story').removeClass('active-story');
-        $$(this).addClass('active-story');
-        if (splitView) {
-            app.closePanel();
-        }
-    }, true);
+    }); 
+    */
 
     // Update data
-    function updateStories(stories) {
+    function updateStories(stories, topic) {
         app.template7Data.stories = stories;
+        app.template7Data.topic = topic;
         $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(stories));
+        $$('.page[data-page="panel-left"] .page-content .list-block').html(T7.templates.panelLeftTemplate(topic));
     }
     // Fetch Stories
     function getStories(refresh) {
-        var results = refresh ? [] : JSON.parse(window.localStorage.getItem('stories')) || [],
-            storiesCount = 0;
+        var tem = [{title:'good',num: 0, icon: 'icon-good'}, {title:'share',num: 0, icon: 'icon-i-share'}, {title:'ask',num: 0, icon: 'icon-iconask'}, {title:'job',num: 0, icon: 'icon-zhaopin'}];
+        var results = refresh ? [] : JSON.parse(window.localStorage.getItem('stories')) || [];
+        var topicArr = refresh ? tem : JSON.parse(window.localStorage.getItem('topic')) || tem;
+        var   storiesCount = 0;
         if (results.length === 0) {
             if (!refresh) {
                 app.showPreloader('Loading top stories : <span class="preloader-progress">0</span> %');
             }
-            hnapi.getTopics({page: 1,limit:100,tab:'good'}, function (resp) {
+            hnapi.getTopics({page: 1,limit:100}, function (resp) {
                 resp = JSON.parse(resp);
                 var data = resp.data;
                 var limit = 100;
@@ -112,6 +71,11 @@
                     hnapi.getTopicDtails(value, function (resp) {
                         resp = JSON.parse(resp);
                         var data = resp.data;
+                        topicArr.forEach(function(value, index) {
+                            if (value.title === data.tab) {
+                                value.num += 1;
+                            };
+                        })
                         results[index] = data;
                         storiesCount += 1;
                         $$('.preloader-progress').text(Math.floor(storiesCount / limit * 100));
@@ -125,21 +89,22 @@
                             });
                             // Update local storage data
                             window.localStorage.setItem('stories', JSON.stringify(results));
+                            window.localStorage.setItem('topic', JSON.stringify(topicArr));
                             // PTR Done
                             app.pullToRefreshDone();
                             // reset .refresh-icon if necessary
                             $$('.refresh-link.refresh-home').removeClass('refreshing');
                             // Clear searchbar
-                            $$('.searchbar-input input')[0].value = '';
+                            // $$('.searchbar-input input')[0].value = '';
                             // Update T7 data and render home page stories
-                            updateStories(results);
+                            updateStories(results, topicArr);
                         }
                     });
                 });
             });
         } else {
             // Update T7 data and render home page stories
-            updateStories(results);
+            updateStories(results, topicArr);
         }
         return results;
     }

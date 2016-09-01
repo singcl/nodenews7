@@ -16,89 +16,78 @@
 
     <link rel="stylesheet" href="lib/framework7.ios.css">
     <link rel="stylesheet" href="lib/framework7.ios.colors.css">
+    <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/nn7.css">
 </head>
 <body>
     <!-- Status bar overlay for fullscreen mode 
     Overlay，即覆盖，就将他理解成一块透明的画布，将它铺在地图上，可以进行的操作主要有两项：绘制（标记）和处理触摸事件。-->
     <div class="statusbar-overlay"></div>
-
-    <!-- Right Panel for user information -->
-    <!-- <div class="panel panel-right panel-reveal"></div> -->
-
-    <!-- views -->
-    <div class="views">
-        <!-- Put panels-overlay and left-panel with view inside of views-->
-        <!-- Panels overlay-->
+        <!-- First, we need to add Panel's overlay that will overlays app while panel is opened -->
         <div class="panel-overlay"></div>
         <!-- Left panel with reveal effect-->
         <div class="panel panel-left panel-cover">
-            <!-- Left view-->
-            <div class="view view-left navbar-through">
-                <!-- left view navbar -->
-                 <div class="navbar theme-white">
+            <div class="view panel-view">
+                <div class="navbar">
                     <div class="navbar-inner">
-                        <div class="left"><a href="#" class="link icon-only refresh-link refresh-home"><i class="icon icon-refresh"></i></a>
+                        <div class="center">
+                            <div class="panel-avatar">
+                                <img src="img/i-f7-material.png" alt="...">
+                            </div>
                         </div>
-                        <div class="center sliding">
-                            <span class="mobile-title">NodeNews7</span>
-                            <span class="tablet-title">Top Stories</span>
-                        </div>
-                    </div>  
+                        <div class="new-message"></div>
+                    </div>
                 </div>
-                <!-- left view pages -->
-                <div class="pages">
-                    <div class="page" data-page="index">
-                        <!-- Search bar -->
-                        <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title" data-searchbar-found=".searchbar-found" data-searchbar-not-found=".searchbar-not-found">
-                            <div class="searchbar-input">
-                                <input type="search" placeholder="Search">
-                                <a href="#" class="searchbar-clear"></a>
-                            </div>
-                            <a href="#" class="searchbar-cancel">Cancel</a>
-                        </form>
-
-                        <div class="page-content pull-to-refresh-content">
-                            <div class="pull-to-refresh-layer">
-                                <div class="preloader"></div>
-                                <div class="pull-to-refresh-arrow"></div>
-                            </div>
-
-                            <!-- Search bar overlay-->
-                            <div class="searchbar-overlay"></div>
-
-                            <!-- no result -->
-                            <div class="content-block searchbar-not-found">
-                                Nothing found
-                            </div>
-
-                            <div class="list-block media-list stories-list list-block-search searchbar-found"></div>
+                <div class="pages navbar-through">
+                    <div class="page" data-page="panel-left">
+                        <div class="page-content">
+                            <div class="list-block"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
+    <!-- views -->
+    <div class="views">
         <!-- main view -->
-        <div class="view view-main navbar-through">
-            <div class="navbar theme-white">
+        <div class="view view-main">
+            <!-- Top navbar -->
+             <div class="navbar theme-white">
                 <div class="navbar-inner">
                     <div class="left">
-                        <a href="#" class="link open-panel icon-only">
-                            <i class="icon icon-bars"></i>
+                        <a href="#" class="link">
+                            <i class="icon icon-back"></i>
+                            <span>Back</span>
+                        </a>
+                        <a href="#" class="link icon-only refresh-link refresh-home">
+                            <i class="icon icon-refresh"></i>
                         </a>
                     </div>
-                    <div class="center">NodeNews7</div>
-                </div>
+                    <div class="center">
+                        <span class="mobile-title">NodeNews7</span>
+                    </div>
+                    <div class="right">
+                        <a href="#" class="link open-panel">
+                            <i class="icon icon-bars"></i>
+                            <span>Menu</span>
+                        </a>
+                    </div>
+                </div>  
             </div>
-            <div class="pages">
-                <div class="page" data-page="main">
-                    <div class="choose-story">
-                        <a href="#" class="open-panel">Choose Story</a>
+            <!--main pages. Now we need additional "navbar-through" and "toolbar-through" classes on Pages -->
+            <div class="pages navbar-through">
+                <div class="page" data-page="index">
+                    <div class="page-content pull-to-refresh-content">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        <div class="list-block media-list stories-list list-block-search searchbar-found"></div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- template7 templates -->
@@ -111,7 +100,7 @@
                         <div class="item-inner">
                             <div class="item-title-row">
                                 <div class="item-title">{{title}}</div>
-                                <div class="item-after"><span class="badge">{{visit_count}}</span></div>
+                                <div class="item-after"><span class="badge">{{tab}}</span></div>
                             </div>
                             <div class="item-subtitle">{{reply_count}} / {{visit_count}}</div>
                             <div class="item-text">{{author.loginname}}</div>
@@ -140,23 +129,38 @@
         {{/each}}
     </script>
 
-    <script type="text/template7" id="repliesTemplate">
-        {{#each this}}
-            <div class="message message-received message-with-tail message-last">
-                <div class="message-name"><span class="comment-name">{{by}}</span>, <span class="comment-time">{{time_ago time}}</span></div>
-                <div class="message-text">{{text}}</div>
-            </div>
-        {{/each}}
-    </script>
-
-    <script type="text/template7" id="userTemplate">
-        <div class="content-block user">
-            <img class="user-avatar" src="img/avatar.svg" width="128px"/>
-            <h1 class="user-name">{{id}}</h1>
-            <p>HN user since {{time_ago created}}</p>
-            <h3 class="user-karma">karma : {{karma}}</h3>
-            <div class="user-about">{{about}}</div>
-        </div>
+    <script type="text/template7" id="panelLeftTemplate">
+        <ul>
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="iconfont icon-quanbu"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">全部</div>
+                        <div class="item-after"></div>
+                    </div>
+                </a>
+            </li>
+            {{#each this}}
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="iconfont {{icon}}"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">{{title}}</div>
+                        <div class="item-after">{{num}}</div>
+                    </div>
+                </a>
+            </li>
+            {{/each}}
+            <li>
+                <a href="#" class="item-link item-content">
+                    <div class="item-media"><i class="iconfont icon-shezhi"></i></div>
+                    <div class="item-inner">
+                        <div class="item-title">设置</div>
+                        <div class="item-after"></div>
+                    </div>
+                </a>
+            </li>
+        </ul>
     </script>
 
     <!-- libraries -->

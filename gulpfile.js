@@ -21,20 +21,24 @@
                 ],
                 styles: [
                     'node_modules/framework7/dist/css/framework7.ios.css',
-                    'node_modules/framework7/dist/css/framework7.ios.colors.css'
-                ]
+                    'node_modules/framework7/dist/css/framework7.ios.colors.css',
+                    'node_modules/framework7/dist/css/framework7.ios.rtl.css'
+                ],
+                images: 'node_modules/framework7/dist/img/**/*'
             },
             source: {
                 root: 'src',
                 templates: 'src/**/*.html',
                 scripts: 'src/**/*.js',
                 styles: 'src/**/*.css',
-                images: 'src/img/**/*'
+                images: 'src/img/**/*',
+                fonts:'src/fonts/**/*'
             },
             dist: {
                 root: 'www',
                 libraries: 'www/lib',
-                images: 'www/img'   
+                images: 'www/img',
+                fonts: 'www/fonts'   
             }
         };
 
@@ -67,11 +71,18 @@
     gulp.task('images', function() {
         gulp.src(paths.source.root + '/apple-touch-icon.png')
             .pipe(gulp.dest(paths.dist.root));
+        gulp.src(paths.libraries.images)
+            .pipe(gulp.dest(paths.dist.images));
         return gulp.src(paths.source.images)
                    .pipe(gulp.dest(paths.dist.images));    
     });
 
-    gulp.task('dist', ['libraries', 'templates', 'scripts', 'styles', 'images']);
+    gulp.task('fonts', function() {
+        return gulp.src(paths.source.fonts)
+                   .pipe(gulp.dest(paths.dist.fonts));
+    });
+
+    gulp.task('dist', ['libraries', 'templates', 'scripts', 'styles', 'images', 'fonts']);
 
     gulp.task('watch', function() {
         gulp.watch(paths.libraries.scripts.concat(paths.libraries.styles), [ 'libraries' ]);
@@ -79,6 +90,7 @@
         gulp.watch(paths.source.scripts, [ 'scripts' ]);
         gulp.watch(paths.source.styles, [ 'styles' ]);
         gulp.watch(paths.source.images, [ 'images' ]);
+        gulp.watch(paths.source.fonts, [ 'fonts' ]);
     });
 
     gulp.task('server', ['dist'], function() {
