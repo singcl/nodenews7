@@ -3,47 +3,16 @@
 (function (Framework7, $$, T7, moment, hnapi) {
     'use strict';
 
-    // Helpers
-    T7.registerHelper('time_ago', function (time) {
-        return moment.unix(time).fromNow();
-    });
-    T7.registerHelper('array_length', function (arr) {
-        return arr ? arr.length : 0;
-    });
-    T7.registerHelper('pluralize', function (arr, options) {
-        return (arr.length === 1) ? options.hash.single : arr.length + " " + options.hash.multiple;
-    });
-    T7.registerHelper('notEmpty', function (value) {
-        return value || 0;
-    });
-
-    var app, mainView, leftView, splitView, allowCommentsInsert;
-
     // Init App
-    app = new Framework7({
-        modalTitle: 'HackerNews7',
-        animateNavBackIcon: true,
+    var app = new Framework7({
         precompileTemplates: true,
-        template7Pages: true,
-        externalLinks: 'a.external, .message a',
-        router: true
+        template7Pages: true
     });
 
-    // Add Right/Main View
-    mainView = app.addView('.view-main', {
-        dynamicNavbar: true,
-        animatePages: false,
-        swipeBackPage: false,
-        reloadPages: true,
-        preloadPreviousPage: false
-    });
-
-    // Add Left View
-    /*
-    leftView = app.addView('.view-left', {
+    // Add Main View
+    var mainView = app.addView('.view-main', {
         dynamicNavbar: true
-    }); 
-    */
+    });
 
     // Update data
     function updateStories(stories, topic) {
@@ -122,7 +91,8 @@
         clicked.addClass('refreshing');
         getStories(true);
     });
-
+    
+    var  allowCommentsInsert;
     // Comments
     function getComments(page) {
         allowCommentsInsert = true;
@@ -161,14 +131,10 @@
         }
     });
 
-    app.onPageAfterAnimation('item', function (page) {
-        if (page.view === leftView) {
-            getComments(page);
-        }
-    });
     app.onPageBack('item', function () {
         allowCommentsInsert = false;
     });
+    
     $$(document).on('click', '.message a', function (e) {
         e.preventDefault();
         window.open($$(this).attr('href'));
@@ -191,33 +157,6 @@
             updateStories(results);
         }
     }
-    $$('.page[data-page="index"] input[type="search"]').on('keyup', function (e) {
-        if (e.keyCode === 13) {
-            $$('.refresh-link.refresh-home').addClass('refreshing');
-            $$('.page[data-page="index"]').find('.searchbar-not-found').html("Searching throw HN...");
-            hnapi.search(this.value, function (data) {
-                var results = [],
-                    limit = 20;
-                data = JSON.parse(data);
-                data.hits.forEach(function (item, i) {
-                    hnapi.item(item.objectID, function (data) {
-                        data = JSON.parse(data);
-                        if (data) {
-                            data.domain = data.url ? data.url.split('/')[2] : '';
-                        }
-                        results[i] = data;
-                        updateOnSearch(results, limit);
-                    }, function (err) {
-                        limit -= 1;
-                        updateOnSearch(results, limit);
-                    });
-                });
-            });
-        }
-    });
-    $$('.page[data-page="index"] .searchbar-cancel').on('click', function () {
-        updateStories(JSON.parse(window.localStorage.getItem('stories')) || []);
-    });
 
     // Get and parse stories on app load
     getStories();
