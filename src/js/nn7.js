@@ -18,7 +18,7 @@
     function updateStories(stories, topic) {
         app.template7Data.stories = stories;
         app.template7Data.topic = topic;
-        $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(stories));
+        $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(stories.slice(0,20)));
         $$('.page[data-page="panel-left"] .page-content .list-block').html(T7.templates.panelLeftTemplate(topic));
     }
     // Fetch Stories
@@ -67,6 +67,7 @@
                             // $$('.searchbar-input input')[0].value = '';
                             // Update T7 data and render home page stories
                             updateStories(results, topicArr);
+                            infiniteScroll(results);
                         }
                     });
                 });
@@ -74,10 +75,35 @@
         } else {
             // Update T7 data and render home page stories
             updateStories(results, topicArr);
+            infiniteScroll(results);
         }
         return results;
     }
 
+    //infinite scroll
+    function infiniteScroll(stories) {
+        var loading = false;
+        var lastIndex = $$('.page[data-page="index"] .list-block li').length;
+        var maxItems = stories.length;
+        var itemPerLoad = 20;
+        $$('.infinite-scroll').on('infinite', function() {
+            if (loading) return;
+            loading = true;
+            setTimeout(function() {
+                loading = false;
+                if (lastIndex >= maxItems) {
+                    app.detachInfiniteScroll($$('.infinite-scroll'));
+                   // 删除加载提示符
+                   $$('.infinite-scroll-preloader').remove();
+                   return;
+                }
+
+                $$('.page[data-page="index"] .page-content .list-block').append(T7.templates.storiesTemplate(stories.slice(lastIndex, lastIndex + itemPerLoad)));
+                lastIndex = $$('.page[data-page="index"] .list-block li').length;
+            },1000);
+        });
+    }
+   
     // Update stories on PTR
     $$('.pull-to-refresh-content').on('refresh', function () {
         $$('.refresh-link.refresh-home').addClass('refreshing');
