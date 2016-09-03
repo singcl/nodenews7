@@ -15,7 +15,7 @@
 }
 
 .panel-left .navbar-through .page-content {
-	padding-top: 170px;
+	padding-top: 169px;
 }
 
 .panel-left .list-block {
@@ -62,12 +62,12 @@ a {
 	height: auto;
 	padding: 5px;
 	color: #000;
+	text-overflow: ellipsis;
 	-webkit-line-clamp: auto;
-	white-space: nowrap;
 }
 
 .stories-list .item-text .tab-content {
-	padding: 1px;
+	padding: 2px 3px;
 	margin-right: 2px;
 	font-size: 14px;
 	color: #666;
@@ -116,7 +116,7 @@ a {
 	background: none;
 }
 .story-header {
-	height: 60px;
+	height: auto;
 	box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.1);
 	position: relative;
 	z-index: 10;
@@ -130,7 +130,7 @@ a {
 	font-size: 20px;
 	font-weight: 600;
 	line-height: 22px;
-	max-height: 30px;
+	height: auto;
 	-webkit-line-clamp: 2;
 	text-overflow: ellipsis;
 	-webkit-box-orient: vertical;

@@ -5,20 +5,7 @@
 
     //Helpers
     T7.registerHelper('topicClass', function(tab) {
-        switch(tab) {
-            case 'share':
-                return '分享';
-                break;
-            case 'job':
-                return '招聘';
-                break;  
-            case 'ask':
-                return '问答';
-                break;  
-            default:
-                return 'Miss';
-                break;        
-        }
+        return {'share': '分享','job': '招聘','ask': '问答'}[tab] ||'Miss';
     });
 
     // Init App
