@@ -149,7 +149,7 @@ a {
 	height: -ms-calc(100% - 130px);
 	height: -webkit-calc(100% - 130px);
 	height: calc(100% - 130px);
-	overflow: auto;
+	/*overflow: auto;   会单独生成一个滚动区*/
 	box-sizing: border-box;
 	-webkit-overflow-scrolling: touch;
 }

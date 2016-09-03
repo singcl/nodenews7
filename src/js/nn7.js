@@ -8,6 +8,10 @@
         return {'share': '分享','job': '招聘','ask': '问答'}[tab] ||'Miss';
     });
 
+    T7.registerHelper('date_created', function(date) {
+        return moment(date).fromNow();
+    })
+
     // Init App
     var app = new Framework7({
         precompileTemplates: true,
