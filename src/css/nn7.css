@@ -45,19 +45,47 @@ a {
 .stories-list ul {
 	border: none;
 }
-.stories-list .item-title {
+.stories-list .item-title ,
+.stories-list .item-after
+{
 	font-weight: normal;
+	font-size: 14px;
+	color: #8e8e93;;
 }
+
 .stories-list .item-subtitle {
 	font-size: 14px;
 	color: #555;
 }
 .stories-list .item-text {
-	font-size: 14px;
+	font-size: 16px;
 	height: auto;
+	padding: 5px;
+	color: #000;
 	-webkit-line-clamp: auto;
 	white-space: nowrap;
 }
+
+.stories-list .item-text .tab-content {
+	padding: 1px;
+	margin-right: 2px;
+	font-size: 14px;
+	color: #666;
+	text-align: center;
+    background-color: #ddd;
+    border-radius: 2px;
+}
+
+.stories-list .item-text.top .tab-content {
+	color: #fff;
+    background-color: #47b04b;
+}
+
+.stories-list .item-text.good .tab-content {
+	color: #fff;
+    background-color: orange;
+}
+
 .stories-list .badge {
 	border: 1px solid #2196f3;
 	color: #2196f3;
@@ -257,7 +285,7 @@ body.with-panel-right-reveal .panel-overlay {
 }
 
 .navbar-through .page-content {
-	padding-top: 56px;
+	padding-top: 55px;
 }
 
 .navbar-through .page > .searchbar ~ .page-content {
@@ -296,4 +324,8 @@ body.with-panel-right-reveal .panel-overlay {
 .infinite-scroll-preloader .preloader {
     width:34px;
     height:34px;
-}   
+} 
+
+.page[data-page="index"] .list-block ul{
+	border-top-width: 0;
+}  

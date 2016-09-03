@@ -93,7 +93,7 @@
 
     <!-- template7 templates -->
     <script type="text/template7" id="storiesTemplate">
-        <ul>
+       <ul>
         {{#each this}}
             <li class="swipeout" data-ld="{{id}}">
                 <div class="swipeout-content">
@@ -102,12 +102,17 @@
                             <img src="{{author.avatar_url}}">
                         </div>
                         <div class="item-inner">
-                            <div class="item-title-row">
-                                <div class="item-title">{{title}}</div>
-                                <div class="item-after"><span class="badge">{{tab}}</span></div>
+                            <div class="item-text {{tab}}{{#if top}} top{{/if}} {{#if good}} good{{/if}}">
+                                <span class="tab-content">
+                                    {{#if good}}精华 {{/if}}
+                                    {{#if top}}置顶{{else}}{{topicClass tab}}{{/if}}</span>{{title}}
+                                    }
                             </div>
-                            <div class="item-subtitle">{{reply_count}} / {{visit_count}}</div>
-                            <div class="item-text">{{author.loginname}}</div>
+                            <div class="item-title-row">
+                                <div class="item-title">{{reply_count}} / {{visit_count}}</div>
+                                <div class="item-after">Author:{{author.loginname}}</div>
+                                <!-- <div class="item-after"><span class="badge">{{tab}}</span></div> -->
+                            </div>
                         </div>
                     </a>
                 </div>

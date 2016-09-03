@@ -3,6 +3,24 @@
 (function (Framework7, $$, T7, moment, hnapi) {
     'use strict';
 
+    //Helpers
+    T7.registerHelper('topicClass', function(tab) {
+        switch(tab) {
+            case 'share':
+                return '分享';
+                break;
+            case 'job':
+                return '招聘';
+                break;  
+            case 'ask':
+                return '问答';
+                break;  
+            default:
+                return 'Miss';
+                break;        
+        }
+    });
+
     // Init App
     var app = new Framework7({
         precompileTemplates: true,
@@ -18,7 +36,7 @@
     function updateStories(stories, topic) {
         app.template7Data.stories = stories;
         app.template7Data.topic = topic;
-        $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(stories.slice(0,20)));
+
         $$('.page[data-page="panel-left"] .page-content .list-block').html(T7.templates.panelLeftTemplate(topic));
     }
     // Fetch Stories
@@ -85,7 +103,9 @@
         var loading = false;
         var lastIndex = $$('.page[data-page="index"] .list-block li').length;
         var maxItems = stories.length;
-        var itemPerLoad = 20;
+        var itemPerLoad = 10;
+        var newItems = stories.slice(0, 15);
+        $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(newItems));
         $$('.infinite-scroll').on('infinite', function() {
             if (loading) return;
             loading = true;
@@ -97,10 +117,13 @@
                    $$('.infinite-scroll-preloader').remove();
                    return;
                 }
-
-                $$('.page[data-page="index"] .page-content .list-block').append(T7.templates.storiesTemplate(stories.slice(lastIndex, lastIndex + itemPerLoad)));
+  
                 lastIndex = $$('.page[data-page="index"] .list-block li').length;
-            },1000);
+                newItems = newItems.concat(stories.slice(lastIndex, lastIndex + itemPerLoad));
+                $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(newItems));
+                lastIndex = $$('.page[data-page="index"] .list-block li').length;
+               
+            },500);
         });
     }
    
