@@ -12,6 +12,10 @@
         return moment(date).fromNow();
     })
 
+    T7.registerHelper('date_public', function(date) {
+        return moment(date).format('ddd YYYY-MM-DD HH:mm');
+    })
+
     // Init App
     var app = new Framework7({
         precompileTemplates: true,
@@ -197,6 +201,24 @@
             updateStories(results);
         }
     }
+
+   //setting reply pupup
+    $$('.open-reply-modal').on('click', function() {
+        app.modal({
+            title: '提示',
+            text: '您点击了回复！',
+            buttons: [
+                {
+                    text: '确定',
+                    bold: true,
+                    onClick: function() {
+                        app.closeModal('.popup-reply');
+                        app.alert('Goodbye');
+                    }
+                }
+            ]
+        })
+    })
 
     // Get and parse stories on app load
     getStories();

@@ -181,6 +181,11 @@ a {
 .story-comments .message pre {
 	white-space: normal;
 }
+
+.story-comments .messages .item-subtitle {
+	white-space: normal;
+}
+
 .icon-refresh {
 	background: url(../img/icon-reload.png) no-repeat center;
 	width: 25px;
@@ -329,3 +334,12 @@ body.with-panel-right-reveal .panel-overlay {
 .page[data-page="index"] .list-block ul{
 	border-top-width: 0;
 }  
+
+.popup-reply {
+	height: auto;
+	top: auto;
+	bottom: 0;
+}
+.popup-reply .list-block {
+	margin: 5px 0;
+}

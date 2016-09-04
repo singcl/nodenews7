@@ -90,6 +90,24 @@
         </div>
 
     </div>
+    <!--  popup -->
+    <div class="popup popup-reply tablet-fullscreen">
+        <div class="content-block-title">请选择</div>
+        <div class="list-block">
+            <ul>
+                <li>
+                    <a href="#" class="item-content open-reply-modal">
+                        <div class="item-inner"><div class="item-title">回复</div></div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="item-content close-popup">
+                        <div class="item-inner"><div class="item-title">取消</div></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <!-- template7 templates -->
     <script type="text/template7" id="storiesTemplate">
@@ -125,7 +143,7 @@
     <script type="text/template7" id="commentsTemplate">
         <ul>
         {{#each this}}
-            <li data-id="{{id}}" class="comment-list">
+            <li data-id="{{id}}" class="comment-list open-popup" data-popup=".popup-reply">
                 <div class="item-content item-link">
                     <div class="item-media">
                         <img src="{{author.avatar_url}}">
