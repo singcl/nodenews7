@@ -113,9 +113,9 @@
     <script type="text/template7" id="storiesTemplate">
        <ul>
         {{#each this}}
-            <li class="swipeout" data-ld="{{id}}">
+            <li class="swipeout">
                 <div class="swipeout-content">
-                    <a href="item.html?id={{id}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                    <a href="item.html?id={{id}}" class="item-content item-link">
                         <div class="item-media">
                             <img src="{{author.avatar_url}}">
                         </div>
@@ -181,7 +181,7 @@
                     <div class="item-inner">
                         <div class="item-title-row">
                             <div class="item-title">{{title}}</div>
-                            <div class="item-after">{{num}}</div>
+                            <div class="item-after"></div>
                         </div>
                     </div>
                 </a>

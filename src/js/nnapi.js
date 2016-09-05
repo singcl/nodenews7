@@ -5,10 +5,10 @@
 
     var urls = ['https://cnodejs.org/api/v1/'];
 
-    var hnapi = {
+    var nnapi = {
         urls: urls,
 
-        //my nodeniew api
+        //my nodeView api
         getTopics: function(options, success, error) {
             options = options || {};
             return $$.ajax({
@@ -26,7 +26,7 @@
         },
 
         getTopicDtails: function(value, success, error) {
-            var id = value.id;
+            var id =value.id;
             return $$.ajax({
                 method: 'GET',
                 url: urls[0] + 'topic/' + id,
@@ -36,6 +36,6 @@
         }
     };
 
-    window.hnapi = hnapi;
+    window.nnapi = nnapi;
 
 }(Framework7, Dom7));
