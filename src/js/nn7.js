@@ -39,7 +39,7 @@
             $$('.page[data-page="index"] .page-content .list-block').append(T7.templates.storiesTemplate(data));
             data.forEach(function(value, index) {
                 nnapi.getTopicDtails(value, function(resp, status, xhr) {
-                    console.log('调用接口：' + xhr.requestUrl);
+                    console.log('调用详情页接口：' + xhr.requestUrl);
                     var resp = JSON.parse(resp);
                     var data = resp.data;
                     //下面这个居然能执行！
@@ -69,6 +69,7 @@
                 }
                 count += 1;
                 showTopics({page: count, limit: itemPerLoad});
+                lastIndex = $$('.page[data-page="index"] .list-block li').length;
             },300);
         });
     }
