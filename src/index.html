@@ -115,7 +115,7 @@
         {{#each this}}
             <li class="swipeout">
                 <div class="swipeout-content">
-                    <a href="item.html?id={{id}}" class="item-content item-link">
+                    <a href="item.html" data-context-name={{id}} class="item-content item-link">
                         <div class="item-media">
                             <img src="{{author.avatar_url}}">
                         </div>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="item-title-row">
                                 <div class="item-title">{{reply_count}} / {{visit_count}}</div>
-                                <div class="item-after">Author:{{author.loginname}}</div>
+                                <div class="item-after" id="rr">Author:{{author.loginname}}</div>
                                 <!-- <div class="item-after"><span class="badge">{{tab}}</span></div> -->
                             </div>
                         </div>

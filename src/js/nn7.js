@@ -43,7 +43,8 @@
                     var resp = JSON.parse(resp);
                     var data = resp.data;
                     //下面这个居然能执行！
-                    app.template7Data['url:item.html?id=' + value.id] = data;
+                    //app.template7Data['url:item.html?id=' + value.id] = data;
+                    app.template7Data[value.id] = data;
                 });
             });   
         });
@@ -69,6 +70,7 @@
                 }
                 count += 1;
                 showTopics({page: count, limit: itemPerLoad});
+                lastIndex = $$('.page[data-page="index"] .list-block li').length;
             },300);
         });
     }
@@ -90,7 +92,8 @@
                     var resp = JSON.parse(resp);
                     var data = resp.data;
                     //下面这个居然能执行！
-                    app.template7Data['url:item.html?id=' + value.id] = data;
+                    //app.template7Data['url:item.html?id=' + value.id] = data;
+                    app.template7Data[value.id] = data;
                 });
             });
         });
@@ -128,7 +131,7 @@
             $$(page.container).find('.story-comments .messages').html('<div>暂无评论</div>');
         }
     }
-
+    
     //页面回调
     app.onPageInit('item', function (page) {
         if (page.view === mainView) {
