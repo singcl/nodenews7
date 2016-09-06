@@ -25,8 +25,7 @@
             });
         },
 
-        getTopicDtails: function(value, success, error) {
-            var id =value.id;
+        getTopicDtails: function(id, success, error) {
             return $$.ajax({
                 method: 'GET',
                 url: urls[0] + 'topic/' + id,

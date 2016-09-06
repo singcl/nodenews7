@@ -36,17 +36,7 @@
             resp = JSON.parse(resp);
             var data = resp.data;
             console.log('调用接口：' + xhr.requestUrl + '\n' + '参数列表：' + xhr.requestParameters);
-            $$('.page[data-page="index"] .page-content .list-block').append(T7.templates.storiesTemplate(data));
-            data.forEach(function(value, index) {
-                nnapi.getTopicDtails(value, function(resp, status, xhr) {
-                    console.log('调用详情页接口：' + xhr.requestUrl);
-                    var resp = JSON.parse(resp);
-                    var data = resp.data;
-                    //下面这个居然能执行！
-                    //app.template7Data['url:item.html?id=' + value.id] = data;
-                    app.template7Data[value.id] = data;
-                });
-            });   
+            $$('.page[data-page="index"] .page-content .list-block').append(T7.templates.storiesTemplate(data));   
         });
     }
 
@@ -87,15 +77,6 @@
             var data = resp.data;
             console.log('刷新页面！调用接口：' + xhr.requestUrl + '\n' + '参数列表：' + xhr.requestParameters);
             $$('.page[data-page="index"] .page-content .list-block').html(T7.templates.storiesTemplate(data));
-            data.forEach(function(value, index) {
-                nnapi.getTopicDtails(value, function(resp, status, xhr) {
-                    var resp = JSON.parse(resp);
-                    var data = resp.data;
-                    //下面这个居然能执行！
-                    //app.template7Data['url:item.html?id=' + value.id] = data;
-                    app.template7Data[value.id] = data;
-                });
-            });
         });
         // PTR Done
         app.pullToRefreshDone();
@@ -123,21 +104,27 @@
     });
 
     // Comments
-    function getComments(page) {
-        var story = page.context;
-        if (story.reply_count) {
-            $$(page.container).find('.story-comments .messages').html(T7.templates.commentsTemplate(story.replies));  
+    function getComments(data) {
+        if (data.reply_count) {
+            $$('.page[data-page="item"]').find('.story-comments .messages').html(T7.templates.commentsTemplate(data.replies));  
         } else {
-            $$(page.container).find('.story-comments .messages').html('<div>暂无评论</div>');
+            $$('.page[data-page="item"]').find('.story-comments .messages').html('<div>暂无评论</div>');
         }
     }
-    
-    //页面回调
-    app.onPageInit('item', function (page) {
-        if (page.view === mainView) {
-            getComments(page);
-        }
-    });
+
+    function showDetails(id) {
+        nnapi.getTopicDtails(id, function(resp, status, xhr) {
+            console.log('调用详情页接口：' + xhr.requestUrl + '\n' + '参数列表：' + xhr.requestParameters);
+            resp = JSON.parse(resp);
+            var data = resp.data;
+            var itemCompiled = Template7.templates.itemTemplate(data);
+            mainView.router.load({content: itemCompiled});
+            getComments(data);
+
+        });
+    }
+
+    window.showDetails = showDetails;
     
    //setting reply pupup
     $$('.open-reply-modal').on('click', function() {
