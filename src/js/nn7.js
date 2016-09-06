@@ -112,20 +112,24 @@
         }
     }
 
+    //调用接口获取数据 > 用数据渲染模板 > 路由切换页面载入模板
     function showDetails(id) {
         nnapi.getTopicDtails(id, function(resp, status, xhr) {
             console.log('调用详情页接口：' + xhr.requestUrl + '\n' + '参数列表：' + xhr.requestParameters);
             resp = JSON.parse(resp);
             var data = resp.data;
             var itemCompiled = Template7.templates.itemTemplate(data);
-            mainView.router.load({content: itemCompiled});
+            // mainView.router.load({content: itemCompiled});
+            mainView.router.loadContent(itemCompiled);
             getComments(data);
-
         });
     }
 
-    window.showDetails = showDetails;
-    
+    $$('.page[data-page="index"] .list-block').on('click','a', function(e) {
+       var id = this.id;
+       showDetails(id);
+    })
+
    //setting reply pupup
     $$('.open-reply-modal').on('click', function() {
         app.modal({
